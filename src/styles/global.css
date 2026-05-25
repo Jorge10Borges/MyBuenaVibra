@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+@import "tailwindcss";
+
+@theme {
+	--color-background: #FDFBF7;
+	--color-surface: #FBF9F5;
+	--color-surface-dim: #DBDAD6;
+	--color-surface-bright: #FBF9F5;
+	--color-surface-container-lowest: #FFFFFF;
+	--color-surface-container-low: #F5F3EF;
+	--color-surface-container: #EFEEEA;
+	--color-surface-container-high: #EAE8E4;
+	--color-surface-container-highest: #E4E2DE;
+	--color-surface-variant: #E4E2DE;
+	--color-on-background: #1B1C1A;
+	--color-on-surface: #1B1C1A;
+	--color-on-surface-variant: #3F484A;
+	--color-outline: #6F797B;
+	--color-outline-variant: #BEC8CA;
+	--color-primary: #00626E;
+	--color-primary-container: #2A7B88;
+	--color-primary-fixed: #A3EEFD;
+	--color-primary-fixed-dim: #87D2E0;
+	--color-on-primary: #FFFFFF;
+	--color-on-primary-container: #E5FAFF;
+	--color-on-primary-fixed: #001F24;
+	--color-on-primary-fixed-variant: #004E59;
+	--color-inverse-primary: #87D2E0;
+	--color-secondary: #99452C;
+	--color-secondary-container: #FF9475;
+	--color-secondary-fixed: #FFDBD1;
+	--color-secondary-fixed-dim: #FFB5A0;
+	--color-on-secondary: #FFFFFF;
+	--color-on-secondary-container: #762B14;
+	--color-on-secondary-fixed: #3B0900;
+	--color-on-secondary-fixed-variant: #7B2E17;
+	--color-tertiary: #A32C2C;
+	--color-tertiary-container: #C54442;
+	--color-tertiary-fixed: #FFDAD7;
+	--color-tertiary-fixed-dim: #FFB3AE;
+	--color-on-tertiary: #FFFFFF;
+	--color-on-tertiary-container: #FFF4F2;
+	--color-on-tertiary-fixed: #410004;
+	--color-on-tertiary-fixed-variant: #8B191D;
+	--color-error: #BA1A1A;
+	--color-error-container: #FFDAD6;
+	--color-on-error: #FFFFFF;
+	--color-on-error-container: #93000A;
+	--color-sand: #FDFBF7;
+	--color-zen: #2A7B88;
+	--color-sunset: #E27D60;
+	--color-coral: #D9534F;
+	--font-display-lg: "Playfair Display", serif;
+	--font-display-lg-mobile: "Playfair Display", serif;
+	--font-headline-lg: "Playfair Display", serif;
+	--font-headline-lg-mobile: "Playfair Display", serif;
+	--font-headline-md: "Playfair Display", serif;
+	--font-body-lg: "Plus Jakarta Sans", sans-serif;
+	--font-body-md: "Plus Jakarta Sans", sans-serif;
+	--font-label-sm: "Plus Jakarta Sans", sans-serif;
+	--font-label-md: "Plus Jakarta Sans", sans-serif;
+	--font-display: "Playfair Display", serif;
+	--font-body: "Plus Jakarta Sans", sans-serif;
+	--text-display-lg: 4rem;
+	--text-display-lg--line-height: 1.1;
+	--text-display-lg-mobile: 2.5rem;
+	--text-display-lg-mobile--line-height: 1.2;
+	--text-headline-lg: 3rem;
+	--text-headline-lg--line-height: 1.2;
+	--text-headline-lg-mobile: 2rem;
+	--text-headline-lg-mobile--line-height: 1.3;
+	--text-headline-md: 2rem;
+	--text-headline-md--line-height: 1.3;
+	--text-body-lg: 1.125rem;
+	--text-body-lg--line-height: 1.7;
+	--text-body-md: 1rem;
+	--text-body-md--line-height: 1.6;
+	--text-label-md: 0.875rem;
+	--text-label-md--line-height: 1.2;
+	--text-label-md--letter-spacing: 0.05em;
+	--text-label-sm: 0.75rem;
+	--text-label-sm--line-height: 1.2;
+	--text-label-sm--letter-spacing: 0.08em;
+	--radius-full: 9999px;
+	--spacing-margin-mobile: 20px;
+	--spacing-margin-desktop: 48px;
+	--spacing-gutter: 24px;
+	--spacing-unit: 8px;
+	--container-max: 1200px;
+	--spacing-section-gap-sm: 64px;
+	--spacing-section-gap-lg: 120px;
+}
+
+@layer base {
+	html {
+		background: #FDFBF7;
+	}
+
+	:root {
+		color-scheme: light;
+	}
+
+	body {
+		min-height: max(884px, 100dvh);
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	body {
+		@apply bg-sand font-body text-zen antialiased;
+	}
+
+	.material-symbols-outlined {
+		font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+	}
+
+	a {
+		@apply transition duration-200;
+	}
+}
+
+.glass-header {
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+}
+
+.soft-shadow {
+	box-shadow: 0 4px 20px rgba(42, 123, 136, 0.05);
+}
+
+.hero-gradient {
+	background: linear-gradient(180deg, rgba(251, 249, 245, 0) 0%, rgba(251, 249, 245, 1) 100%);
+}
