@@ -1,0 +1,665 @@
+---
+import heroImage from '../assets/A_cinematic,_authentic_photograph_of_202605241759.jpeg';
+import avatarImage from '../assets/A_professional_editorial_photograph_of_202605241758.jpeg';
+import moduleImage from '../assets/A_cinematic,_authentic_photograph_of_202605241758.jpeg';
+import resourceImage from '../assets/A_premium_digital_graphic_design_202605241758.jpeg';
+import abstractImage from '../assets/A_minimalist_abstract_background_with_202605241758.jpeg';
+import notebookImage from '../assets/A_flat_lay_conceptual_photograph_202605241757.jpeg';
+import '../styles/global.css';
+
+const videoFiles = Object.entries(import.meta.glob<string>('../assets/videos/*.mp4', { eager: true, import: 'default' }))
+  .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath, 'es'))
+  .map(([path, src], index) => {
+    const fileName = path.split('/').pop()?.replace(/\.mp4$/i, '') ?? `Video ${index + 1}`;
+
+    return {
+      id: `playlist-video-${index + 1}`,
+      title: fileName,
+      number: String(index + 1).padStart(2, '0'),
+      src,
+    };
+  });
+
+const featuredVideo = videoFiles[0];
+
+const lessons = videoFiles.map((video, index) => ({
+  title: video.title,
+  duration: `Video ${video.number}`,
+  completed: index === 0,
+}));
+
+const libraryItems = [
+	{
+		title: 'Clase de apertura',
+		duration: '10 min',
+		description: 'Una guía breve para entrar al proceso sin sobrecargar tu mente.',
+		image: heroImage,
+	},
+	{
+		title: 'Práctica de activación',
+		duration: '8 min',
+		description: 'Técnicas para desestructurar patrones y pasar a la acción con más calma.',
+		image: resourceImage,
+	},
+	{
+		title: 'Cierre y sostén',
+		duration: '12 min',
+		description: 'Cómo consolidar tu avance para que el cambio no dependa de un impulso pasajero.',
+		image: abstractImage,
+	},
+];
+---
+
+<html class="dark" lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
+		<meta name="generator" content={Astro.generator} />
+		<title>MyBuenaVibra | Reproductor de Videos</title>
+		<meta name="description" content="Página para reproducir los videos del curso MyBuenaVibra con player principal, módulos, recursos y navegación inferior." />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+		<style>
+			body {
+				background-color: #0a0c10;
+				color: #f2f0ed;
+				-webkit-font-smoothing: antialiased;
+				min-height: max(884px, 100dvh);
+			}
+
+			.video-gradient {
+				background: linear-gradient(0deg, rgba(10, 12, 16, 1) 0%, rgba(10, 12, 16, 0) 100%);
+			}
+
+			.lesson-item:active {
+				transform: scale(0.98);
+			}
+
+			.glass-panel {
+				backdrop-filter: blur(12px);
+				background: rgba(26, 29, 35, 0.7);
+			}
+
+			.scroll-hide::-webkit-scrollbar {
+				display: none;
+			}
+
+      #custom-controls button:hover,
+      #custom-controls input:hover {
+        cursor: pointer;
+      }
+
+      .custom-range {
+        appearance: none;
+        background: linear-gradient(90deg, #f7c56b 0%, #f7c56b var(--seek-progress, 0%), rgba(255, 255, 255, 0.18) var(--seek-progress, 0%), rgba(255, 255, 255, 0.18) 100%);
+        height: 1.25rem;
+      }
+
+      .custom-range::-webkit-slider-runnable-track {
+        height: 0.35rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .custom-range::-webkit-slider-thumb {
+        appearance: none;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 999px;
+        margin-top: -0.32rem;
+        background: #f7c56b;
+        box-shadow: 0 0 0 6px rgba(247, 197, 107, 0.16);
+      }
+
+      .custom-range::-moz-range-track {
+        height: 0.35rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .custom-range::-moz-range-thumb {
+        width: 1rem;
+        height: 1rem;
+        border: 0;
+        border-radius: 999px;
+        background: #f7c56b;
+        box-shadow: 0 0 0 6px rgba(247, 197, 107, 0.16);
+      }
+
+      .volume-range {
+        appearance: none;
+        background: linear-gradient(90deg, rgba(247, 197, 107, 0.98) 0%, rgba(247, 197, 107, 0.98) var(--volume-progress, 100%), rgba(255, 255, 255, 0.14) var(--volume-progress, 100%), rgba(255, 255, 255, 0.14) 100%);
+        border-radius: 999px;
+        height: 1.15rem;
+      }
+
+      .volume-range::-webkit-slider-runnable-track {
+        height: 0.3rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .volume-range::-webkit-slider-thumb {
+        appearance: none;
+        width: 1.05rem;
+        height: 1.05rem;
+        border-radius: 999px;
+        margin-top: -0.37rem;
+        background: radial-gradient(circle at 30% 30%, #fff3d0 0%, #f7c56b 42%, #e7af40 100%);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow: 0 0 0 5px rgba(247, 197, 107, 0.14), 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
+
+      .volume-range::-moz-range-track {
+        height: 0.3rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .volume-range::-moz-range-thumb {
+        width: 1.05rem;
+        height: 1.05rem;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 30%, #fff3d0 0%, #f7c56b 42%, #e7af40 100%);
+        box-shadow: 0 0 0 5px rgba(247, 197, 107, 0.14), 0 8px 18px rgba(0, 0, 0, 0.25);
+      }
+
+      .volume-chip {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      .volume-chip:focus-within {
+        border-color: rgba(247, 197, 107, 0.45);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 0 4px rgba(247, 197, 107, 0.08);
+      }
+		</style>
+	</head>
+	<body class="font-body-md text-body-md">
+		<header class="fixed top-0 z-50 flex h-16 w-full items-center justify-between bg-surface/70 px-margin-mobile shadow-sm backdrop-blur-md dark:shadow-none">
+			<div class="flex items-center gap-3">
+				<button class="text-primary transition-all active:scale-95 active:opacity-80 dark:text-primary-fixed">
+					<span class="material-symbols-outlined">menu</span>
+				</button>
+				<h1 class="origin-left scale-[0.6] text-display-lg-mobile font-display-lg-mobile tracking-tight text-primary dark:text-primary-fixed">MyBuenaVibra</h1>
+			</div>
+			<div class="h-8 w-8 overflow-hidden rounded-full bg-primary-container ring-2 ring-primary/20">
+				<img alt="Perfil del estudiante" class="h-full w-full object-cover" src={avatarImage.src} />
+			</div>
+		</header>
+
+		<main class="min-h-screen pb-24 pt-16 lg:pb-0">
+			<div class="mx-auto w-full max-w-360 px-margin-mobile py-6 lg:px-margin-desktop lg:py-10">
+        <div>
+          <section class="w-full max-w-360 space-y-6 justify-self-center lg:space-y-8">
+            <div class="overflow-hidden rounded-4xl border border-white/10 bg-black shadow-[0_30px_90px_rgba(0,0,0,0.55)] lg:rounded-[2.5rem]">
+              <div class="relative aspect-video lg:aspect-video">
+                {featuredVideo ? (
+                  <video id="main-video" class="h-full w-full bg-black object-cover" playsinline preload="metadata" src={featuredVideo.src}></video>
+                ) : (
+                  <img alt="Course Video Preview" class="h-full w-full object-cover opacity-60 transition duration-500 lg:scale-[1.02]" src={heroImage.src} />
+                )}
+                <div class="absolute inset-0 bg-linear-to-tr from-black/60 via-black/25 to-transparent"></div>
+                <div class="video-gradient absolute inset-x-0 bottom-0 z-10 flex flex-col gap-2 p-4 lg:p-6">
+                  <div class="flex items-center justify-between text-white/85">
+                    <div>
+                      <p class="text-xs font-bold uppercase tracking-[0.28em] text-primary-fixed">Reproducción activa</p>
+                      <p class="mt-1 text-sm font-semibold" id="active-video-title">{featuredVideo ? featuredVideo.title : 'Sin videos cargados'}</p>
+                    </div>
+                    <span class="material-symbols-outlined text-xl!">fullscreen</span>
+                  </div>
+                  <div class="h-1 w-full overflow-hidden rounded-full bg-white/20">
+                    <div class="h-full w-1/3 rounded-full bg-primary"></div>
+                  </div>
+                </div>
+                {featuredVideo ? (
+                  <div class="absolute inset-x-0 bottom-0 z-20 border-t border-white/10 bg-black/45 p-4 backdrop-blur-xl lg:p-5" id="custom-controls">
+                    <div class="flex flex-col gap-4">
+                      <div class="flex items-center gap-3 lg:gap-4">
+                        <button aria-label="Reproducir o pausar" class="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-on-primary transition-transform active:scale-95" id="play-toggle" type="button">
+                          <span class="material-symbols-outlined text-2xl!" id="play-toggle-icon">play_arrow</span>
+                        </button>
+                        <div class="min-w-0 flex-1">
+                          <p class="truncate text-sm font-semibold text-white" id="custom-controls-title">{featuredVideo.title}</p>
+                          <p class="text-xs text-white/65">Controles personalizados del reproductor</p>
+                        </div>
+                          <div class="volume-chip hidden items-center gap-3 rounded-full px-3 py-2 lg:flex">
+                            <span class="material-symbols-outlined text-lg! text-white/85">volume_up</span>
+                            <div class="flex flex-col leading-none">
+                              <span class="text-[10px] font-bold uppercase tracking-[0.28em] text-white/55">Vol</span>
+                              <span class="text-[11px] text-white/75">Audio</span>
+                            </div>
+                            <input aria-label="Volumen del video" class="volume-range w-32" id="volume-bar" max="1" min="0" step="0.01" type="range" value="1" />
+                          </div>
+                        <button aria-label="Pantalla completa" class="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20" id="fullscreen-toggle" type="button">
+                          <span class="material-symbols-outlined text-xl!">fullscreen</span>
+                        </button>
+                      </div>
+                      <div class="flex items-center gap-3 text-xs font-semibold text-white/75 lg:text-sm">
+                        <span class="tabular-nums" id="current-time">0:00</span>
+                        <input aria-label="Buscar en el video" class="custom-range min-w-0 flex-1" id="seek-bar" min="0" max="100" step="0.1" type="range" value="0" />
+                        <span class="tabular-nums" id="duration-time">0:00</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+            <div class="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+              <div class="rounded-[1.75rem] border border-white/10 bg-surface-container-high p-5 shadow-[0_18px_40px_rgba(0,0,0,0.2)] lg:p-7">
+                <span class="mb-2 block uppercase tracking-widest text-primary font-label-md text-label-md">Premium Course</span>
+                <h2 class="text-on-surface font-headline-lg-mobile text-headline-lg-mobile lg:text-display-lg-mobile" id="selected-video-title">{featuredVideo ? featuredVideo.title : 'No hay videos disponibles'}</h2>
+                <p class="mt-3 max-w-2xl leading-relaxed text-on-surface-variant" id="selected-video-description">Selecciona un video de la lista para cambiar la reproducción principal.</p>
+              </div>
+  
+              <div class="rounded-[1.75rem] border border-white/10 bg-surface-container-high p-5 shadow-[0_18px_40px_rgba(0,0,0,0.2)] lg:p-7">
+                <div class="grid grid-cols-2 gap-3">
+                  <button class="group flex flex-col items-center justify-center rounded-2xl border border-outline-variant/10 bg-surface-container-low p-4 transition-all hover:bg-surface-container-highest lg:p-5">
+                    <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
+                      <span class="material-symbols-outlined text-primary">picture_as_pdf</span>
+                    </div>
+                    <span class="text-center font-label-md text-label-md text-on-surface">Descargar Guía PDF</span>
+                  </button>
+                  <button class="group flex flex-col items-center justify-center rounded-2xl border border-outline-variant/10 bg-surface-container-low p-4 transition-all hover:bg-surface-container-highest lg:p-5">
+                    <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-secondary/10 transition-colors group-hover:bg-secondary/20">
+                      <span class="material-symbols-outlined text-secondary">folder_zip</span>
+                    </div>
+                    <span class="text-center font-label-md text-label-md text-on-surface">Material de Apoyo</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <section class="grid gap-6 lg:grid-cols-[1fr_1fr] lg:gap-8">
+              <div class="rounded-[1.75rem] border border-white/10 bg-surface-container-high p-5 shadow-[0_18px_40px_rgba(0,0,0,0.2)] lg:p-7">
+                <div class="mb-4 flex items-center justify-between">
+                  <h3 class="uppercase tracking-wider text-on-surface font-label-md text-label-md">Curriculum del Curso</h3>
+                  <span class="font-label-sm text-label-sm text-primary">33% completado</span>
+                </div>
+                <div class="overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container-highest">
+                  <div class="flex items-center justify-between bg-primary/5 p-4">
+                    <span class="font-label-md text-label-md text-on-surface">Módulo 1: Despertar</span>
+                    <span class="material-symbols-outlined text-xl! text-primary">expand_more</span>
+                  </div>
+                  <div class="space-y-1 p-2">
+                    {lessons.map((lesson) => (
+                      <button class={`lesson-item flex w-full items-center gap-4 rounded-xl p-3 text-left transition-colors ${lesson.completed ? 'bg-primary-container/20 text-on-primary-container' : 'text-on-surface hover:bg-surface-container-high'}`}>
+                        {lesson.completed ? (
+                          <span class="material-symbols-outlined text-2xl! text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        ) : (
+                          <div class="flex h-6 w-6 items-center justify-center rounded border-2 border-outline">
+                            <span class="sr-only">Pendiente</span>
+                          </div>
+                        )}
+                        <div class="flex-1">
+                          <p class="font-label-md text-label-md">{lesson.title}</p>
+                          <span class={`font-label-sm text-label-sm ${lesson.completed ? 'opacity-70' : 'text-on-surface-variant'}`}>{lesson.duration}</span>
+                        </div>
+                        <span class={`material-symbols-outlined text-xl! ${lesson.completed ? 'text-primary' : 'text-on-surface-variant'}`} style={lesson.completed ? "font-variation-settings: 'FILL' 1;" : ''}>play_circle</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div class="mt-4 space-y-3">
+                  <div class="flex items-center justify-between rounded-2xl border border-outline-variant/10 bg-surface-container-low p-5 opacity-60">
+                    <div class="flex items-center gap-4">
+                      <span class="material-symbols-outlined text-on-surface-variant">lock</span>
+                      <span class="font-label-md text-label-md text-on-surface">Módulo 2: Desbloquear</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between rounded-2xl border border-outline-variant/10 bg-surface-container-low p-5 opacity-60">
+                    <div class="flex items-center gap-4">
+                      <span class="material-symbols-outlined text-on-surface-variant">lock</span>
+                      <span class="font-label-md text-label-md text-on-surface">Módulo 3: Descubrir</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <aside class="w-full space-y-6 lg:sticky lg:top-24 lg:self-start lg:justify-self-stretch">
+                <div class="rounded-[1.75rem] border border-white/10 bg-surface-container-high p-5 shadow-[0_18px_40px_rgba(0,0,0,0.2)] lg:p-6">
+                  <div class="flex items-center gap-4">
+                    <img alt="Perfil del estudiante" class="h-14 w-14 rounded-full object-cover ring-2 ring-primary/20" src={avatarImage.src} />
+                    <div>
+                      <p class="text-xs font-bold uppercase tracking-[0.3em] text-primary">Now playing</p>
+                      <p class="mt-1 font-semibold text-on-surface" id="now-playing-title">{featuredVideo ? featuredVideo.title : 'Sin reproducción activa'}</p>
+                      <p class="text-sm text-on-surface-variant" id="now-playing-meta">{featuredVideo ? `${videoFiles.length} videos cargados` : 'Agrega videos a src/assets/videos'}</p>
+                    </div>
+                  </div>
+                  <div class="mt-5 grid grid-cols-3 gap-3">
+                    <div class="rounded-2xl bg-surface-container-low p-4 text-center">
+                      <p class="text-xs uppercase tracking-[0.25em] text-sunset">Lecciones</p>
+                      <p class="mt-2 text-2xl font-black text-on-surface">{String(videoFiles.length).padStart(2, '0')}</p>
+                    </div>
+                    <div class="rounded-2xl bg-surface-container-low p-4 text-center">
+                      <p class="text-xs uppercase tracking-[0.25em] text-sunset">Duración</p>
+                      <p class="mt-2 text-2xl font-black text-on-surface">MP4</p>
+                    </div>
+                    <div class="rounded-2xl bg-surface-container-low p-4 text-center">
+                      <p class="text-xs uppercase tracking-[0.25em] text-sunset">Estado</p>
+                      <p class="mt-2 text-2xl font-black text-on-surface">100%</p>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="rounded-[1.75rem] border border-white/10 bg-surface-container-high p-5 shadow-[0_18px_40px_rgba(0,0,0,0.2)] lg:p-6">
+                  <div class="mb-4 flex items-center justify-between">
+                    <p class="text-xs font-bold uppercase tracking-[0.3em] text-sunset">Lista de reproducción</p>
+                    <span class="text-sm font-semibold text-on-surface-variant" id="playlist-count">{videoFiles.length} videos</span>
+                  </div>
+                  <div class="scroll-hide max-h-112 space-y-2 overflow-y-auto pr-1">
+                    {videoFiles.length ? videoFiles.map((video, index) => (
+                      <button class={`playlist-item flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-all ${index === 0 ? 'border-primary/30 bg-primary-container/20 text-on-primary-container' : 'border-outline-variant/10 bg-surface-container-low text-on-surface hover:bg-surface-container-highest'}`} data-video-src={video.src} data-video-title={video.title} data-video-number={video.number} type="button">
+                        <div class={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-sm font-black ${index === 0 ? 'bg-primary text-on-primary' : 'bg-surface-container-high text-on-surface-variant'}`}>
+                          {video.number}
+                        </div>
+                        <div class="min-w-0 flex-1">
+                          <p class="truncate font-semibold">{video.title}</p>
+                          <p class="text-sm text-on-surface-variant">Video {video.number}</p>
+                        </div>
+                        <span class={`material-symbols-outlined text-xl! ${index === 0 ? 'text-primary' : 'text-on-surface-variant'}`}>play_circle</span>
+                      </button>
+                    )) : (
+                      <div class="rounded-2xl border border-dashed border-outline-variant/30 bg-surface-container-low p-4 text-sm text-on-surface-variant">
+                        No hay videos en src/assets/videos.
+                      </div>
+                    )}
+                  </div>
+                </div>
+  
+                <div class="rounded-[1.75rem] border border-white/10 bg-surface-container-high p-5 shadow-[0_18px_40px_rgba(0,0,0,0.2)] lg:p-6">
+                  <div class="mb-4 flex items-center justify-between">
+                    <h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Biblioteca</h3>
+                    <span class="material-symbols-outlined text-primary">chevron_right</span>
+                  </div>
+                  <div class="grid gap-3">
+                    {libraryItems.map((item) => (
+                      <article class="flex items-center gap-3 rounded-2xl bg-surface-container-low p-3 transition hover:bg-surface-container">
+                        <img alt={item.title} class="h-16 w-16 rounded-xl object-cover" src={item.image.src} />
+                        <div class="min-w-0 flex-1">
+                          <p class="truncate font-semibold text-on-surface">{item.title}</p>
+                          <p class="text-sm text-on-surface-variant">{item.duration}</p>
+                        </div>
+                        <span class="material-symbols-outlined text-primary">play_circle</span>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </aside>
+            </section>
+          </section>
+          
+        </div>
+			</div>
+		</main>
+
+		<nav class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-xl bg-surface/90 px-4 py-3 pb-safe shadow-[0_-4px_20px_rgba(42,123,136,0.05)] backdrop-blur-xl lg:hidden">
+			<button class="flex flex-col items-center justify-center px-4 py-1.5 text-on-surface-variant transition-all hover:text-primary dark:text-outline">
+				<span class="material-symbols-outlined">explore</span>
+				<span class="font-label-sm text-label-sm">Discover</span>
+			</button>
+			<button class="flex flex-col items-center justify-center rounded-2xl bg-primary-container px-4 py-1.5 text-on-primary-container duration-200 ease-out active:scale-90 dark:bg-primary dark:text-on-primary">
+				<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+				<span class="font-label-sm text-label-sm">Learning</span>
+			</button>
+			<button class="flex flex-col items-center justify-center px-4 py-1.5 text-on-surface-variant transition-all hover:text-primary dark:text-outline">
+				<span class="material-symbols-outlined">psychology</span>
+				<span class="font-label-sm text-label-sm">Mentors</span>
+			</button>
+			<button class="flex flex-col items-center justify-center px-4 py-1.5 text-on-surface-variant transition-all hover:text-primary dark:text-outline">
+				<span class="material-symbols-outlined">person</span>
+				<span class="font-label-sm text-label-sm">Profile</span>
+			</button>
+		</nav>
+
+		<div class="glass-panel pointer-events-none fixed bottom-24 left-1/2 z-50 flex -translate-x-1/2 translate-y-20 items-center gap-3 rounded-full border border-primary/20 px-6 py-3 opacity-0 shadow-xl transition-all duration-500" id="toast">
+			<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+			<span class="font-label-md text-label-md text-white">¡Lección completada!</span>
+		</div>
+
+		<script is:inline>
+			const lessonItems = document.querySelectorAll('.lesson-item');
+      const playlistItems = document.querySelectorAll('.playlist-item');
+			const toast = document.getElementById('toast');
+      const mainVideo = document.getElementById('main-video');
+      const activeVideoTitle = document.getElementById('active-video-title');
+      const selectedVideoTitle = document.getElementById('selected-video-title');
+      const selectedVideoDescription = document.getElementById('selected-video-description');
+      const nowPlayingTitle = document.getElementById('now-playing-title');
+      const nowPlayingMeta = document.getElementById('now-playing-meta');
+      const playlistCount = document.getElementById('playlist-count');
+      const playToggle = document.getElementById('play-toggle');
+      const playToggleIcon = document.getElementById('play-toggle-icon');
+      const fullscreenToggle = document.getElementById('fullscreen-toggle');
+      const seekBar = document.getElementById('seek-bar');
+      const volumeBar = document.getElementById('volume-bar');
+      const currentTimeLabel = document.getElementById('current-time');
+      const durationTimeLabel = document.getElementById('duration-time');
+      const customControlsTitle = document.getElementById('custom-controls-title');
+
+      const formatTime = (seconds) => {
+        if (!Number.isFinite(seconds) || seconds < 0) {
+          return '0:00';
+        }
+
+        const totalSeconds = Math.floor(seconds);
+        const minutes = Math.floor(totalSeconds / 60);
+        const remainingSeconds = totalSeconds % 60;
+        return `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
+      };
+
+      const updatePlayState = () => {
+        if (!(mainVideo instanceof HTMLVideoElement) || !playToggleIcon) {
+          return;
+        }
+
+        const isPlaying = !mainVideo.paused && !mainVideo.ended;
+        playToggleIcon.textContent = isPlaying ? 'pause' : 'play_arrow';
+      };
+
+      const updateSeekState = () => {
+        if (!(mainVideo instanceof HTMLVideoElement)) {
+          return;
+        }
+
+        const duration = mainVideo.duration || 0;
+        const currentTime = mainVideo.currentTime || 0;
+        const progress = duration ? (currentTime / duration) * 100 : 0;
+
+        if (seekBar instanceof HTMLInputElement) {
+          seekBar.value = String(progress);
+          seekBar.style.setProperty('--seek-progress', `${progress}%`);
+          seekBar.disabled = !Number.isFinite(duration) || duration <= 0;
+        }
+
+        if (currentTimeLabel) {
+          currentTimeLabel.textContent = formatTime(currentTime);
+        }
+
+        if (durationTimeLabel) {
+          durationTimeLabel.textContent = formatTime(duration);
+        }
+      };
+
+      const updateVolumeState = () => {
+        if (!(mainVideo instanceof HTMLVideoElement)) {
+          return;
+        }
+
+        const volume = Math.max(0, Math.min(1, mainVideo.volume));
+
+        if (volumeBar instanceof HTMLInputElement) {
+          volumeBar.value = String(volume);
+          volumeBar.style.setProperty('--volume-progress', `${volume * 100}%`);
+        }
+      };
+
+      const setActivePlaylistItem = (item) => {
+        playlistItems.forEach((button) => {
+          const isActive = button === item;
+          button.classList.toggle('border-primary/30', isActive);
+          button.classList.toggle('bg-primary-container/20', isActive);
+          button.classList.toggle('text-on-primary-container', isActive);
+          button.classList.toggle('border-outline-variant/10', !isActive);
+          button.classList.toggle('bg-surface-container-low', !isActive);
+          button.classList.toggle('text-on-surface', !isActive);
+          button.classList.toggle('hover:bg-surface-container-highest', !isActive);
+
+          const badge = button.querySelector('div');
+          const icon = button.querySelector('.material-symbols-outlined');
+          if (badge) {
+            badge.classList.toggle('bg-primary', isActive);
+            badge.classList.toggle('text-on-primary', isActive);
+            badge.classList.toggle('bg-surface-container-high', !isActive);
+            badge.classList.toggle('text-on-surface-variant', !isActive);
+          }
+          if (icon) {
+            icon.classList.toggle('text-primary', isActive);
+            icon.classList.toggle('text-on-surface-variant', !isActive);
+          }
+        });
+      };
+
+      playlistItems.forEach((item) => {
+        item.addEventListener('click', async () => {
+          const videoSrc = item.dataset.videoSrc;
+          const videoTitle = item.dataset.videoTitle ?? 'Video';
+
+          if (mainVideo instanceof HTMLVideoElement && videoSrc) {
+            mainVideo.src = videoSrc;
+            mainVideo.load();
+            updateSeekState();
+            try {
+              await mainVideo.play();
+            } catch {
+              // El navegador puede requerir interacción adicional para reproducir.
+            }
+            updatePlayState();
+          }
+
+          if (activeVideoTitle) {
+            activeVideoTitle.textContent = videoTitle;
+          }
+          if (selectedVideoTitle) {
+            selectedVideoTitle.textContent = videoTitle;
+          }
+          if (selectedVideoDescription) {
+            selectedVideoDescription.textContent = 'Reproduciendo el video seleccionado desde la carpeta assets/videos.';
+          }
+          if (nowPlayingTitle) {
+            nowPlayingTitle.textContent = videoTitle;
+          }
+          if (nowPlayingMeta) {
+            nowPlayingMeta.textContent = `${playlistItems.length} videos cargados`;
+          }
+          if (playlistCount) {
+            playlistCount.textContent = `${playlistItems.length} videos`;
+          }
+
+          setActivePlaylistItem(item);
+        });
+      });
+
+      if (mainVideo instanceof HTMLVideoElement) {
+        mainVideo.addEventListener('loadedmetadata', updateSeekState);
+        mainVideo.addEventListener('timeupdate', updateSeekState);
+        mainVideo.addEventListener('play', updatePlayState);
+        mainVideo.addEventListener('pause', updatePlayState);
+        mainVideo.addEventListener('ended', updatePlayState);
+        mainVideo.addEventListener('loadedmetadata', () => {
+          if (customControlsTitle && mainVideo.dataset.title) {
+            customControlsTitle.textContent = mainVideo.dataset.title;
+          }
+        });
+
+        if (playToggle) {
+          playToggle.addEventListener('click', async () => {
+            if (mainVideo.paused) {
+              try {
+                await mainVideo.play();
+              } catch {
+                return;
+              }
+            } else {
+              mainVideo.pause();
+            }
+            updatePlayState();
+          });
+        }
+
+        if (seekBar instanceof HTMLInputElement) {
+          seekBar.addEventListener('input', () => {
+            const duration = mainVideo.duration || 0;
+            if (Number.isFinite(duration) && duration > 0) {
+              mainVideo.currentTime = (Number(seekBar.value) / 100) * duration;
+            }
+          });
+        }
+
+			if (volumeBar instanceof HTMLInputElement) {
+				volumeBar.addEventListener('input', () => {
+					const volume = Math.max(0, Math.min(1, Number(volumeBar.value)));
+					mainVideo.volume = volume;
+					mainVideo.muted = volume === 0;
+					updateVolumeState();
+				});
+			}
+
+        if (fullscreenToggle) {
+          fullscreenToggle.addEventListener('click', async () => {
+            const wrapper = mainVideo.closest('.relative.aspect-video');
+            if (!wrapper) {
+              return;
+            }
+
+            if (document.fullscreenElement) {
+              await document.exitFullscreen();
+              return;
+            }
+
+            if (wrapper.requestFullscreen) {
+              await wrapper.requestFullscreen();
+            }
+          });
+        }
+
+        updatePlayState();
+        updateSeekState();
+        updateVolumeState();
+      }
+
+			lessonItems.forEach((item) => {
+				item.addEventListener('click', () => {
+					const check = item.querySelector('.border-outline');
+					if (check) {
+						check.innerHTML = '<span class="material-symbols-outlined !text-lg text-primary" style="font-variation-settings: \'FILL\' 1;">check</span>';
+						check.classList.remove('border-outline');
+						check.classList.add('border-primary');
+
+						if (toast) {
+							toast.classList.remove('translate-y-20', 'opacity-0');
+							toast.classList.add('translate-y-0', 'opacity-100');
+							window.setTimeout(() => {
+								toast.classList.add('translate-y-20', 'opacity-0');
+								toast.classList.remove('translate-y-0', 'opacity-100');
+							}, 3000);
+						}
+					}
+				});
+			});
+
+			window.addEventListener('scroll', () => {
+				const scroll = window.scrollY;
+				const video = document.querySelector('section.aspect-video');
+				if (video && scroll < 300) {
+					video.style.opacity = 1 - scroll / 600;
+					video.style.transform = `scale(${1 + scroll / 2000})`;
+				}
+			});
+		</script>
+	</body>
+</html>
