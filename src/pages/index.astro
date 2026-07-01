@@ -25,7 +25,7 @@ import '../styles/global.css';
 	</head>
 	<body class="font-body-md text-on-surface">
 		<header class="glass-header fixed top-0 z-50 w-full border-b border-outline-variant/20 bg-surface/75 shadow-sm backdrop-blur-xl">
-			<div class="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-margin-mobile">
+			<div class="mx-auto flex h-16 w-full max-w-360 items-center justify-between px-margin-mobile">
 				<div class="flex items-center gap-4">
 					<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
 					<div>
@@ -40,7 +40,7 @@ import '../styles/global.css';
 		</header>
 
 		<main class="pb-24 pt-16">
-			<div class="mx-auto w-full max-w-[1440px]">
+			<div class="mx-auto w-full max-w-360">
 				<section class="relative overflow-hidden px-margin-mobile py-14 sm:py-20">
 					<div class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
 						<div class="max-w-3xl">
@@ -62,15 +62,15 @@ import '../styles/global.css';
 								</a>
 							</div>
 							<div class="mt-10 grid gap-4 sm:grid-cols-3">
-								<div class="rounded-[1.5rem] border border-zen/10 bg-white/80 p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
+								<div class="rounded-3xl border border-zen/10 bg-white/80 p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
 									<p class="text-sm font-semibold text-sunset">500+</p>
 									<p class="mt-2 text-sm leading-6 text-zen/75">mujeres acompañadas en procesos de transformación.</p>
 								</div>
-								<div class="rounded-[1.5rem] border border-zen/10 bg-white/80 p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
+								<div class="rounded-3xl border border-zen/10 bg-white/80 p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
 									<p class="text-sm font-semibold text-sunset">10 min</p>
 									<p class="mt-2 text-sm leading-6 text-zen/75">micro-módulos para avanzar sin sentir fricción.</p>
 								</div>
-								<div class="rounded-[1.5rem] border border-zen/10 bg-white/80 p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
+								<div class="rounded-3xl border border-zen/10 bg-white/80 p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
 									<p class="text-sm font-semibold text-sunset">15 días</p>
 									<p class="mt-2 text-sm leading-6 text-zen/75">garantía para comprar con seguridad.</p>
 								</div>
@@ -80,12 +80,12 @@ import '../styles/global.css';
 						<div class="relative">
 							<div class="absolute -left-6 top-8 h-24 w-24 rounded-full bg-sunset/20 blur-3xl"></div>
 							<div class="absolute -right-10 bottom-12 h-28 w-28 rounded-full bg-coral/20 blur-3xl"></div>
-							<div class="overflow-hidden rounded-[2rem] border border-outline-variant/25 bg-surface-container-lowest shadow-[0_24px_70px_rgba(42,123,136,0.14)]">
-								<div class="relative h-[520px]">
+							<div class="overflow-hidden rounded-4xl border border-outline-variant/25 bg-surface-container-lowest shadow-[0_24px_70px_rgba(42,123,136,0.14)]">
+								<div class="relative h-130">
 									<img alt="Hero" class="h-full w-full object-cover" src={heroImage.src} />
-									<div class="absolute inset-0 bg-gradient-to-t from-sand via-sand/20 to-transparent"></div>
+									<div class="absolute inset-0 bg-linear-to-t from-sand via-sand/20 to-transparent"></div>
 									<div class="absolute bottom-0 left-0 right-0 p-6">
-										<div class="rounded-[1.5rem] bg-white/88 p-5 backdrop-blur">
+										<div class="rounded-3xl bg-white/88 p-5 backdrop-blur">
 											<p class="text-xs font-bold uppercase tracking-[0.3em] text-sunset">CÓDIGO 3D</p>
 											<p class="mt-3 font-display text-3xl font-bold leading-tight text-zen">Una experiencia de evolución, no solo un curso.</p>
 										</div>
@@ -98,7 +98,7 @@ import '../styles/global.css';
 
 				<section class="px-margin-mobile py-14">
 					<div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-						<div class="rounded-[2rem] border border-outline-variant/25 bg-white p-8 shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
+						<div class="rounded-4xl border border-outline-variant/25 bg-white p-8 shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
 							<p class="text-xs font-bold uppercase tracking-[0.3em] text-coral">Si hoy te sientes así...</p>
 							<h2 class="mt-4 font-display text-4xl font-bold leading-tight text-zen">El problema no eres tú, es el ruido que te enseñó a dudar de ti.</h2>
 							<p class="mt-5 text-base leading-8 text-on-surface/80">
@@ -110,21 +110,21 @@ import '../styles/global.css';
 								<p>• Sabes que hay más para ti, pero te falta estructura para avanzar.</p>
 							</div>
 						</div>
-						<div class="rounded-[2rem] border border-outline-variant/25 bg-surface-container-low p-8 shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
+						<div class="rounded-4xl border border-outline-variant/25 bg-surface-container-low p-8 shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
 							<div class="grid gap-4 sm:grid-cols-2">
-								<div class="rounded-[1.5rem] bg-white p-5">
+								<div class="rounded-3xl bg-white p-5">
 									<p class="text-xs font-bold uppercase tracking-[0.3em] text-sunset">Espero</p>
 									<p class="mt-2 text-sm leading-7 text-on-surface-variant">Volver a confiar en tu criterio y sentirte capaz de elegir con calma.</p>
 								</div>
-								<div class="rounded-[1.5rem] bg-white p-5">
+								<div class="rounded-3xl bg-white p-5">
 									<p class="text-xs font-bold uppercase tracking-[0.3em] text-sunset">Necesito</p>
 									<p class="mt-2 text-sm leading-7 text-on-surface-variant">Un sistema simple para ordenar mente, energía y acción.</p>
 								</div>
-								<div class="rounded-[1.5rem] bg-white p-5">
+								<div class="rounded-3xl bg-white p-5">
 									<p class="text-xs font-bold uppercase tracking-[0.3em] text-sunset">Quiero</p>
 									<p class="mt-2 text-sm leading-7 text-on-surface-variant">Procesos cortos y profundos que respeten tu tiempo real.</p>
 								</div>
-								<div class="rounded-[1.5rem] bg-white p-5">
+								<div class="rounded-3xl bg-white p-5">
 									<p class="text-xs font-bold uppercase tracking-[0.3em] text-sunset">Merezco</p>
 									<p class="mt-2 text-sm leading-7 text-on-surface-variant">Una transformación coherente, sin culpa ni promesas vacías.</p>
 								</div>
@@ -192,19 +192,19 @@ import '../styles/global.css';
 					<div class="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
 						<div class="rounded-[1.75rem] border border-outline-variant/25 bg-white p-8 shadow-[0_18px_40px_rgba(42,123,136,0.08)]">
 							<div class="grid gap-4 sm:grid-cols-2">
-								<div class="rounded-[1.5rem] bg-sand p-5">
+								<div class="rounded-3xl bg-sand p-5">
 									<p class="font-semibold text-zen">Workbook de liberación</p>
 									<p class="mt-2 text-sm text-on-surface-variant">Para identificar anuladores del poder interior.</p>
 								</div>
-								<div class="rounded-[1.5rem] bg-sand p-5">
+								<div class="rounded-3xl bg-sand p-5">
 									<p class="font-semibold text-zen">Serie de audios</p>
 									<p class="mt-2 text-sm text-on-surface-variant">5 días de conexión diaria con tu proceso.</p>
 								</div>
-								<div class="rounded-[1.5rem] bg-sand p-5">
+								<div class="rounded-3xl bg-sand p-5">
 									<p class="font-semibold text-zen">Masterclass de tiempo</p>
 									<p class="mt-2 text-sm text-on-surface-variant">Bonus para resolver la objeción del tiempo.</p>
 								</div>
-								<div class="rounded-[1.5rem] bg-sand p-5">
+								<div class="rounded-3xl bg-sand p-5">
 									<p class="font-semibold text-zen">Sesión 1:1</p>
 									<p class="mt-2 text-sm text-on-surface-variant">Para primeras horas de carrito o cupos limitados.</p>
 								</div>
@@ -284,7 +284,7 @@ import '../styles/global.css';
 							<p class="text-xs font-bold uppercase tracking-[0.3em] text-sunset">Escasez y urgencia</p>
 							<h3 class="mt-4 font-display text-3xl font-bold text-zen">Bonus de lanzamiento para primeras 48 horas</h3>
 							<p class="mt-4 text-sm leading-7 text-on-surface-variant">Las primeras personas reciben una sesión 1 a 1 y acceso prioritario a recursos extra. Después, el bonus se retira.</p>
-							<div class="mt-6 overflow-hidden rounded-[1.5rem] border border-outline-variant/25 bg-sand p-5">
+							<div class="mt-6 overflow-hidden rounded-3xl border border-outline-variant/25 bg-sand p-5">
 								<p class="text-sm font-semibold text-zen">Tripwire opcional</p>
 								<p class="mt-2 text-sm leading-7 text-on-surface-variant">Tras captar el lead, se puede ofrecer un infoproducto de entrada por 7€-47€ durante 15-30 minutos para monetizar el tráfico frío.</p>
 							</div>
@@ -294,10 +294,10 @@ import '../styles/global.css';
 
 				<section class="px-margin-mobile py-16">
 					<div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-						<div class="overflow-hidden rounded-[2rem] border border-outline-variant/25 bg-white shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
-							<img alt="Sobre mí" class="h-full min-h-[420px] w-full object-cover" src={portraitImageTwo.src} />
+						<div class="overflow-hidden rounded-4xl border border-outline-variant/25 bg-white shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
+							<img alt="Sobre mí" class="h-full min-h-105 w-full object-cover" src={portraitImageTwo.src} />
 						</div>
-						<div class="rounded-[2rem] border border-outline-variant/25 bg-surface-container-lowest p-8 shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
+						<div class="rounded-4xl border border-outline-variant/25 bg-surface-container-lowest p-8 shadow-[0_18px_50px_rgba(42,123,136,0.08)]">
 							<p class="text-xs font-bold uppercase tracking-[0.3em] text-primary">Sobre mí</p>
 							<h2 class="mt-4 font-display text-4xl font-bold text-on-surface">No hablo desde la perfección, hablo desde la superación.</h2>
 							<p class="mt-5 text-base leading-8 text-on-surface/80">Mi historia con MyBuenaVibra nace de haber sentido la desconexión entre lo que mostraba y lo que realmente necesitaba. Aprendí a reconstruir mi energía, escuchar mis heridas y convertir el dolor en estructura. Ese recorrido hoy se traduce en un método que no romantiza la herida: la ordena, la mira y la transforma.</p>
@@ -401,19 +401,19 @@ import '../styles/global.css';
 						<h2 class="font-display text-4xl font-bold text-on-surface">Ganchos de entrada que sí atraen tráfico frío</h2>
 					</div>
 					<div class="grid gap-6 lg:grid-cols-4">
-						<div class="rounded-[1.5rem] bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
+						<div class="rounded-3xl bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
 							<p class="font-semibold text-zen">Serie de audios</p>
 							<p class="mt-2 text-sm leading-7 text-on-surface-variant">5 días para crear conexión diaria y percepción de acompañamiento.</p>
 						</div>
-						<div class="rounded-[1.5rem] bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
+						<div class="rounded-3xl bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
 							<p class="font-semibold text-zen">Test online</p>
 							<p class="mt-2 text-sm leading-7 text-on-surface-variant">Autoestima, bloqueo o estado actual para segmentar mejor.</p>
 						</div>
-						<div class="rounded-[1.5rem] bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
+						<div class="rounded-3xl bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
 							<p class="font-semibold text-zen">Workbook</p>
 							<p class="mt-2 text-sm leading-7 text-on-surface-variant">Un recurso descargable para detectar anuladores del poder interior.</p>
 						</div>
-						<div class="rounded-[1.5rem] bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
+						<div class="rounded-3xl bg-white p-5 shadow-[0_12px_30px_rgba(42,123,136,0.08)]">
 							<p class="font-semibold text-zen">Masterclass gratuita</p>
 							<p class="mt-2 text-sm leading-7 text-on-surface-variant">Ideal si quieres demostrar autoridad antes de cerrar una oferta mayor.</p>
 						</div>
